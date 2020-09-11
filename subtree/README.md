@@ -1,7 +1,16 @@
 # Git Katas: Subtree
 
-Subtree are a way to embed other git repository histories into your own by merging in the subtree history into yours. It also enables you to push patches to the subtree repo
-This allows you to grab source change directly via merging histories, as well as _pushing_ them back.
+Subtree are a way to embed other git repository histories into your own by merging in the subtree history into yours. It also enables you to push patches to the subtree repository. This allows you to grab source change directly via merging histories, as well as _pushing_ them back.
+
+This feature is useful if you decide that for instance a specific folder should be a repository on its own because other repositories/projects would need it.
+
+## Resources
+
+We found some resources that may assist you in understanding this feature of Git better.
+
+* https://manpages.debian.org/testing/git-man/git-subtree.1.en.html
+* https://lostechies.com/johnteague/2014/04/04/using-git-subtrees-to-split-a-repository/
+* https://github.com/git/git/blob/master/contrib/subtree/git-subtree.txt
 
 ## Setup
 
@@ -11,49 +20,26 @@ This allows you to grab source change directly via merging histories, as well as
 
 ## Task
 
-After running `. setup.sh` or `. ./setup.sh`, you'll be left with two repositories inside the `exercises` folder.
+After running `. setup.sh` or `. ./setup.sh`, you'll have two repositories that we will use for this exercise.
 
-* A `product` repository
-* A `component` repository.
+* A `product` repository that has one `component` inside is useful for the two scenarios: merging and splitting.
 
 Go to the `product` repository.
 
-1. Run `git ......................`.
+1. Run `git log`. Can you explain the additional explanatory lines?
 2. What does your working directory look like?
 3. Does `git status` look like you expect?
-4. What if you cd to `include`?
-5. Commit the changes on the `product` repository.
-
-Go to the `component` repository.
-
-6. Does it know that it is a submodule?
-7. Make a change.
-8. Commit it on the `component` repository.
-9. Execute `git checkout master~0` to detach the HEAD.  This workaround is required in order to push to this repository from the `component` submodule that was checkout in `product` repository.
+4. Commit the changes on the `product` repository.
 
 Go to the `product` repository.
 
-10. Does `git status` or `git submodule status` tell you anything about this new commit?
-11. Go to the `include` path and `git pull` the latest version.
-12. Go to the `product` path. What is the status now in your product repository?
-13. Go to your `include` folder. Make a change and `push` it back to its origin.
+1. git split -b 
 
-Go to the `exercise` directory. We will make a clone.
+Next, we'd like to actually the two repositories, so we end up with a single repository. That's one of the powers of subtree.
 
-14. Run `git clone product product_alpha`.
-15. What happened?
-16. Go to `product_alpha` directory, how does your working directory look, what does the log say?
-17. Use `git submodule init`, what does your work dir look like?
-18. Use `git submodule update`, what does your work dir look like now?
+## Useful commands
 
-Go to the `product` repository.
-
-19. Commit the changes on the `product` repository.
-
-Go to the `exercise` directory. We will make a second clone.
-
-20. Run `git clone product product_beta`.
-21. What happened?
-22. Go to `product_beta` directory, how does your working directory look, what does the log say?
+- `git subtree split`
+- `git split add`
 
 Draw this entire exercise!

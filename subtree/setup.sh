@@ -35,6 +35,3 @@ git remote add component ../component/.git
 git subtree add --prefix component component master
 
 git branch -f component/master FETCH_HEAD
-
-git log --graph --all --decorate
-
