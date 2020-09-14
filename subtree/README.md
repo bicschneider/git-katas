@@ -11,6 +11,13 @@ We found some resources that may assist you in understanding this feature of Git
 * https://manpages.debian.org/testing/git-man/git-subtree.1.en.html
 * https://lostechies.com/johnteague/2014/04/04/using-git-subtrees-to-split-a-repository/
 * https://github.com/git/git/blob/master/contrib/subtree/git-subtree.txt
+* https://devtut.github.io/git/subtrees.html#create-pull-and-backport-subtree
+
+* https://codewinsarguments.co/2016/05/01/git-submodules-vs-git-subtrees/
+
+* https://git-memo.readthedocs.io/en/latest/subtree.html
+
+Subtrees are easier to pull, but harder to push
 
 ## Setup
 
@@ -27,19 +34,24 @@ After running `. setup.sh` or `. ./setup.sh`, you'll have two repositories that 
 Go to the `product` repository.
 
 1. Run `git log`. Can you explain the additional explanatory lines?
-2. What does your working directory look like?
-3. Does `git status` look like you expect?
-4. Commit the changes on the `product` repository.
+1. Go to the `component` repository, and see what `git log` says. Is it what you expected?
+1. What does your working directory look like?
+1. Does `git status` look like you expect?
+1. Commit the changes on the `product` repository.
+1.
 
-Go to the `product` repository.
+Go to the `component` repository.
 
-1. git split -b 
+1. git split -b
 
-Next, we'd like to actually the two repositories, so we end up with a single repository. That's one of the powers of subtree.
+Next, we'd like to actually the two repositories, so we end up with a single repository.
+That's one of the powers of subtree.
 
 ## Useful commands
 
 - `git subtree split`
 - `git split add`
+- `git log`
+- `git read-tree`
 
 Draw this entire exercise!
