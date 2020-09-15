@@ -93,8 +93,8 @@ To ../component/.git
 * `git log --graph --decorate --oneline --all`
 * `git subtree add --prefix component component master`
 * `git remote add component ../component/.git`
-- `git subtree push --prefix <prefix/directory> <repo> <branch>`
-- `git read-tree`
+* `git subtree push --prefix <prefix/directory> <repo> <branch>`
+* `git read-tree`
 
 ## Run all the exercises as a script
 Run all the above commands to see the commands and their results.
