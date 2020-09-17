@@ -30,18 +30,20 @@ git init --bare
 cd ..
 
 repo_dev=dev_env
+subdir=${repo_subdir}
 mkdir ${repo_dev}
 cd ${repo_dev}
 git init
-msg="1st ${repo_dev}: root commit"
+
+msg="1st ${repo_dev}: root and subdir commit"
 echo "$msg" >> ${repo_dev}.h
-git add ${repo_dev}.h
-git commit -m "${msg}"
-subdir=${repo_subdir}
 mkdir ${subdir}
+echo "$msg" >> ${subdir}/${subdir}.h
+git add .
+git commit -m "${msg}"
 msg="2nd ${repo_dev} : ${subdir} commit"
 echo "$msg" >> ${subdir}/${subdir}.h
-git add ${subdir}/${subdir}.h
+git add .
 git commit -m "$msg"
 cd ..
 pwd
@@ -51,28 +53,64 @@ pwd
 set -x
 
 echo "Press any key to next step"
-#read -r cont
+[[ ${autocontinue:-} == true ]] || read -r cont
 cd $repo_dev
-git subtree split --prefix ${subdir} --branch ${subdir}/master
+git remote add component ../component/.git
+../../../../git/contrib/subtree/git-subtree.sh split --prefix ${subdir} --branch ${subdir}/master
 
+exit 0
 git branch -a
 
 echo "Press any key to next step"
-#read -r cont
+[[ ${autocontinue:-} == true ]] || read -r cont
 
 msg="3rd ${repo_dev} : root commit"
 echo "${msg}" >> ${repo_dev}.h
 git add ${repo_dev}.h
 git commit -m "${msg}"
 
-msg="4th ${repo_dev} : ${subdir} commit"
+git checkout -b feature
+git reset --hard HEAD~1
+
+msg="4th ${repo_dev} : ${subdir} commit on branch"
 echo "${msg}" >> ${subdir}/${subdir}.h
 git add ${subdir}/${subdir}.h
+git commit -m "${msg}"
+
+git checkout master
+git subtree split --prefix ${subdir} --branch ${subdir}/master --onto ${subdir}/master
+
+msg="5th ${repo_dev}: root and subdir commit"
+echo "$msg" >> ${repo_dev}.h
+touch ${subdir}/${subdir}.c && echo "$msg" >> ${subdir}/${subdir}.c
+git add .
+git commit -m "${msg}"
+
+git merge feature
+
+git checkout feature
+msg="6th ${repo_dev}: root commit"
+touch ${repo_dev}.c && echo "$msg" >> ${repo_dev}.c
+git add .
+git commit -m "${msg}"
+
+git checkout master
+git merge feature
+git subtree split --prefix ${subdir} --branch ${subdir}/master --onto ${subdir}/master
+
+msg="7th ${repo_dev}: root and subdir commit"
+echo "$msg" >> ${repo_dev}.h
+echo "$msg" >> ${subdir}/${subdir}.c
+git add .
 git commit -m "${msg}"
 
 git subtree split --prefix ${subdir} --branch ${subdir}/master --onto ${subdir}/master
 
 git branch -a
 
-git push ../${repo_subdir}  ${subdir}/master:master
+git push component ${subdir}/master:master
 
+git log --graph --oneline --decorate --all
+cd ../${repo_subdir}
+git log --graph --oneline --decorate --all
+cd ..
